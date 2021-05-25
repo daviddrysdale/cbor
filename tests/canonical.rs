@@ -1,4 +1,4 @@
-#[cfg(feature = "std")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 mod std_tests {
     use serde_cbor::value::Value;
 

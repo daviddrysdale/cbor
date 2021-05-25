@@ -1,11 +1,12 @@
 #[macro_use]
 extern crate serde_derive;
 
-#[cfg(feature = "std")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 mod std_tests {
-    use serde_cbor;
+    extern crate alloc;
 
-    use std::collections::BTreeMap;
+    use alloc::collections::BTreeMap;
+    use serde_cbor;
 
     #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
     struct TupleStruct(String, i32, u64);
@@ -23,8 +24,8 @@ mod std_tests {
         unit_array: Vec<UnitStruct>,
     }
 
+    use core::iter::FromIterator;
     use serde_cbor::value::Value;
-    use std::iter::FromIterator;
 
     #[test]
     fn serde() {

@@ -41,12 +41,14 @@ fn serialize_and_compare<T: Serialize>(value: T, expected: &[u8]) {
     assert_eq!(&slice[..end], expected);
 }
 
-#[cfg(feature = "std")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 mod std_tests {
+    extern crate alloc;
+
+    use alloc::collections::BTreeMap;
     use serde::Serializer;
     use serde_cbor::ser;
     use serde_cbor::{from_slice, to_vec};
-    use std::collections::BTreeMap;
 
     #[test]
     fn test_string() {
@@ -96,7 +98,7 @@ mod std_tests {
 
     #[test]
     fn test_object_object_keys() {
-        use std::iter::FromIterator;
+        use core::iter::FromIterator;
         let mut object = BTreeMap::new();
         let keys = vec![
             vec!["a"],
@@ -138,19 +140,19 @@ mod std_tests {
 
     #[test]
     fn test_infinity() {
-        let vec = to_vec(&::std::f64::INFINITY).unwrap();
+        let vec = to_vec(&::core::f64::INFINITY).unwrap();
         assert_eq!(vec, b"\xf9|\x00");
     }
 
     #[test]
     fn test_neg_infinity() {
-        let vec = to_vec(&::std::f64::NEG_INFINITY).unwrap();
+        let vec = to_vec(&::core::f64::NEG_INFINITY).unwrap();
         assert_eq!(vec, b"\xf9\xfc\x00");
     }
 
     #[test]
     fn test_nan() {
-        let vec = to_vec(&::std::f32::NAN).unwrap();
+        let vec = to_vec(&::core::f32::NAN).unwrap();
         assert_eq!(vec, b"\xf9\x7e\x00");
     }
 

@@ -30,4 +30,6 @@ default = ["std"]
 alloc = ["serde/alloc"]
 std = ["serde/std" ]
 unsealed_read_write = []
-tags = []
+# The `tags` feature requires `std` because its implementation uses
+# `std::thread_local!`.
+tags = ["std"]

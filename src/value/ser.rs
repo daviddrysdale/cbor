@@ -6,7 +6,10 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-use std::collections::BTreeMap;
+use alloc::borrow::ToOwned;
+use alloc::collections::BTreeMap;
+use alloc::string::String;
+use alloc::vec::Vec;
 
 use crate::error::Error;
 use serde::{self, Serialize};

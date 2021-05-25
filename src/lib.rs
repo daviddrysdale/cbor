@@ -322,7 +322,7 @@
 #[cfg(all(not(feature = "std"), test))]
 extern crate std;
 
-#[cfg(feature = "alloc")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 extern crate alloc;
 
 pub mod de;
@@ -332,7 +332,7 @@ pub mod ser;
 pub mod tags;
 mod write;
 
-#[cfg(feature = "std")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 pub mod value;
 
 // Re-export the [items recommended by serde](https://serde.rs/conventions.html).
@@ -364,6 +364,6 @@ pub use crate::ser::to_vec;
 pub use crate::ser::to_writer;
 
 // Re-export the value type like serde_json
-#[cfg(feature = "std")]
+#[cfg(any(feature = "std", feature = "alloc"))]
 #[doc(inline)]
 pub use crate::value::Value;
